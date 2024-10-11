@@ -24,7 +24,7 @@ import Ratings from "./ratings";
 
 type Feedback = InferSelectModel<typeof feedbacks>;
 function Table(props: { data: Feedback[] }) {
-  const rerender = React.useReducer(() => ({}), {})[1];
+  /*   const rerender = React.useReducer(() => ({}), {})[1]; */
 
   const columns = React.useMemo<ColumnDef<Feedback>[]>(
     () => [
@@ -99,11 +99,9 @@ function MyTable({
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onPaginationChange: setPagination,
-    //no need to pass pageCount or rowCount with client-side pagination as it is calculated automatically
     state: {
       pagination,
     },
-    // autoResetPageIndex: false, // turn off page index reset when sorting or filtering
   });
 
   return (
@@ -232,12 +230,12 @@ function MyTable({
   );
 }
 
-function Filter({
+function Filter<TData>({
   column,
   table,
 }: {
-  column: Column<any, any>;
-  table: TanStackTable<any>;
+  column: Column<TData, unknown>;
+  table: TanStackTable<TData>;
 }) {
   const firstValue = table
     .getPreFilteredRowModel()

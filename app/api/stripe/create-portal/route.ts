@@ -4,7 +4,8 @@ import { db } from "@/db";
 import { subscriptions } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
-export async function POST(req: Request) {
+export async function POST() {
+  // Removed `req`
   const { userId } = auth();
 
   if (!userId) {
@@ -27,7 +28,6 @@ export async function POST(req: Request) {
       };
       console.log("Customer found with ID:", customer.id);
     } else {
-      // If no subscription, create a new Stripe customer
       console.log("No existing subscription, creating a new Stripe customer");
       const customerData: { metadata: { dbId: string } } = {
         metadata: { dbId: userId },
@@ -36,7 +36,6 @@ export async function POST(req: Request) {
       const response = await stripe.customers.create(customerData);
       customer = { id: response.id };
 
-      // Store customer ID in the database
       await db.insert(subscriptions).values({
         userId,
         stripeCustomerId: customer.id,

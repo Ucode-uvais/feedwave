@@ -19,7 +19,7 @@ function StarIcon(props: React.SVGProps<SVGSVGElement>) {
 
 const Ratings = ({ rating, count }: { rating: number; count: number }) => (
   <div className="flex items-center gap-2">
-    {[...Array(5)].map((_, index) => (
+    {[...Array(count)].map((_, index) => (
       <StarIcon
         key={index}
         className={`h-5 w-5  ${

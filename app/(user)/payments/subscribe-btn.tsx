@@ -2,7 +2,6 @@
 import { Button } from "@/components/ui/button";
 import { getStripe } from "@/lib/stripe-client";
 import { Loader2 } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 type Props = {
@@ -10,9 +9,8 @@ type Props = {
 };
 
 const SubscribeBtn = ({ price }: Props) => {
-  const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null); // Keep this if you plan to use it
 
   const handleCheckout = async (price: string) => {
     setLoading(true);
@@ -31,6 +29,7 @@ const SubscribeBtn = ({ price }: Props) => {
       }
     } catch (error) {
       console.error(error);
+      setError("An error occurred while processing the payment"); // Using setError here
     }
     setLoading(false);
   };
@@ -56,4 +55,5 @@ const SubscribeBtn = ({ price }: Props) => {
     </Button>
   );
 };
+
 export default SubscribeBtn;
